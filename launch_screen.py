@@ -19,13 +19,11 @@ class welcome_screen:
         self.screen.blit(Title, (30, 30))
 
     def join_party_button(self):
-        #1020, 58 to 1220, 126
         joinParty = self.pygame.image.load("images/Button.Party.Join.png")
         joinParty = self.pygame.transform.scale(joinParty, (480, 360))
         self.screen.blit(joinParty, (900, 0))
 
     def create_party_button(self):
-        #1020, 610 to 1280, 675
         createParty = self.pygame.image.load("images/Button.Party.Create.png")
         createParty = self.pygame.transform.scale(createParty, (480, 360))
         self.screen.blit(createParty, (900, 550))

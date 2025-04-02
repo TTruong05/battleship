@@ -30,7 +30,7 @@ class launch_missiles:
         self.screen.blit(your_board, (200, 10))
         enemy_board = font.render("Đối thủ", True, (255, 255, 255))
         self.screen.blit(enemy_board, (820, 10))
-
+    # Tạo kết nối mạng cho giai đoạn bắn phá.
     def createSocket(self, IP):
         if self.is_server:
             self.server = self.socket.socket(self.socket.AF_INET, self.socket.SOCK_STREAM)
@@ -41,7 +41,7 @@ class launch_missiles:
             self.client = self.socket.socket(self.socket.AF_INET, self.socket.SOCK_STREAM)
             time.sleep(3)
             self.client.connect((IP, 8088))
-
+    # vẽ lưới của người chơi
     def draw_your_board(self):
         x_loc = 20
         for idx, row in enumerate(self.board):
@@ -58,7 +58,7 @@ class launch_missiles:
                     self.pygame.draw.circle(self.screen, (242, 19, 19), (x_loc + 60 * jdx + 30, 88 + self.cell_offset + 30), 6)
             self.cell_offset += 60
         self.cell_offset = 0
-
+    # Vẽ lưới theo dõi đòn bắn vào đối thủ.
     def draw_missile_board(self):
         x_loc = 650
         for idx, row in enumerate(self.missile_board):
@@ -75,7 +75,7 @@ class launch_missiles:
                     self.pygame.draw.circle(self.screen, (255, 255, 0), (x_loc + 60 * jdx + 30, 88 + self.cell_offset + 30), 6)
             self.cell_offset += 60
         self.cell_offset = 0
-
+    # thông báo lượt cho từng người
     def turn(self):
         font = self.pygame.font.Font("coolvetica rg.ttf", 36)
         if self.our_turn:
@@ -84,7 +84,7 @@ class launch_missiles:
         else:
             turn_text = font.render("Lượt đối thủ!", True, (255, 255, 255))
             self.screen.blit(turn_text, (510, 20))
-
+    # Gửi tọa độ bắn tới đối thủ.
     def change_board(self, x, y):
         self.last_shot = (x, y)
         self.first = True
@@ -94,7 +94,7 @@ class launch_missiles:
             self.client.send(message)
         else:
             self.conn.send(message)
-
+    # Kiểm tra điều kiện kết thúc trò chơi.
     def check_game_over(self):
         # Chiến thắng: đối thủ hết tàu (đếm số tàu bị bắn trúng)
         if self.opponent_ships_remaining <= 0:
@@ -107,7 +107,7 @@ class launch_missiles:
             return True
 
         return False
-
+    # hiển thị thông báo thắng thua
     def display_victory(self):
         font = self.pygame.font.Font("coolvetica rg.ttf", 72)
         victory_text = font.render("You Win!", True, (255, 255, 0))
@@ -129,7 +129,7 @@ class launch_missiles:
         self.game_over = True
         self.victory = False
         self.close_connections()
-
+    # đóng kết nối khi trò chơi kết thúc
     def close_connections(self):
         if hasattr(self, 'conn'):
             self.conn.close()
@@ -137,7 +137,7 @@ class launch_missiles:
             self.server.close()
         if hasattr(self, 'client'):
             self.client.close()
-
+    # xủ lý kết quả khi bắn
     def missed_hit(self, description):
         font = self.pygame.font.Font("coolvetica rg.ttf", 32)
         description_text = font.render(f"{description}!", True, (255, 255, 255))
@@ -151,7 +151,7 @@ class launch_missiles:
 
         # Kiểm tra game over ngay sau khi xử lý đòn bắn
         self.check_game_over()
-
+    # Vẽ giao diện và xử lý logic bắn phá.
     def drawui(self, IP):
         # Tạo kết nối nếu chưa được thiết lập
         if self.very_first:

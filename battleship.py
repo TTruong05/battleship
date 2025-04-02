@@ -32,7 +32,12 @@ class battleship_game:
         font = self.pygame.font.Font("coolvetica rg.ttf", 72)
         Title = font.render("Tàu Chiến", True, (255, 255, 255))
         self.screen.blit(Title, (30, 30))
-
+    # vẽ lưới 10 x10 để đặt tàu
+    # Lặp qua từng ô trong board:
+    # Nếu ô = 0 (trống): Vẽ hình vuông viền xanh nhạt (214, 229, 255) và chấm xám (163, 163, 162).
+    # Nếu ô = 1 (có tàu): Vẽ viền xanh lá (25, 209, 83) và chấm xanh lá.
+    # Mỗi ô có kích thước 63x63, cách nhau 65 pixel, bắt đầu từ (600, 63).
+    # cell_offset tăng 65 mỗi hàng để dịch chuyển xuống dưới, sau đó reset về 0.
     def draw_board(self):
         for idx, i in enumerate(self.board):
 
@@ -49,7 +54,7 @@ class battleship_game:
             self.cell_offset = self.cell_offset + 65
 
         self.cell_offset = 0
-
+    # đánh dấu tọa độ trên lưới
     def draw_numbers(self):
         alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
         for idx, i in enumerate(self.board):
@@ -65,7 +70,7 @@ class battleship_game:
                 self.screen.blit(letter, (573, 60 + (idx) * 65))
             else:
                 self.screen.blit(letter, (568, 60 + (idx) * 65))
-
+    # Hiển thị danh sách tàu và số lượng còn lại.
     def draw_boats(self):
 
         font = self.pygame.font.Font("coolvetica rg.ttf", 72)
@@ -85,7 +90,12 @@ class battleship_game:
         self.screen.blit(Carrier_counter, (500, 615))
         self.screen.blit(Battle_Ship_counter, (400, 515))
         self.screen.blit(Small_Ship_counter, (225, 215))
-
+    # tương tác khi chọn và xoay tàu.
+    # Lấy vị trí chuột (x, y) và trạng thái phím.
+    # Nếu có hình ảnh tàu:
+    # Nhấn phím trái khi chưa xoay: Xoay 90 độ, đặt rotated = True.
+    # Khi đã xoay: Xoay thêm 90 độ, nếu nhấn phím trái thì quay lại vị trí ban đầu (rotated = False).
+    # Vẽ lại giao diện bằng run_first(), rồi vẽ tàu tại vị trí chuột (căn giữa).
     def load_image_to_mouse(self, image, event):
         x, y = self.pygame.mouse.get_pos()
         keys = self.pygame.key.get_pressed()
@@ -103,7 +113,7 @@ class battleship_game:
             self.run_first()
             self.screen.blit(image, (x - width/2, y - height/2))
             self.pygame.display.update()
-
+    # Tạo ma trận tọa độ pixel cho từng ô trên lưới.
     def generate_board_positions(self):
         init_pos_x = 600
         init_pos_y = 30
@@ -126,7 +136,7 @@ class battleship_game:
             cell_map = cell_map + 1
 
         return MATRIX
-
+    # Cập nhật lưới khi người chơi đặt tàu.
     def calc_position(self, ship):
         x, y = self.pygame.mouse.get_pos()
 

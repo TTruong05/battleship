@@ -11,7 +11,7 @@ class join_party:
         self.waiting_for_game = False
         self.waiting_for_game2 = False
         self.decrypted = None
-
+    #  hiển thị thông báo
     def Title(self):
         font = self.pygame.font.Font("coolvetica rg.ttf", 72)
         Title = font.render("Đang cho tro choi bat dau...", True, (0, 0, 0))
@@ -19,13 +19,13 @@ class join_party:
 
     def background(self):
         self.screen.fill((214, 229, 255))
-
+    # Thiết lập kết nối từ client tới server và gửi tên người chơi.
     def connect_to_client(self, HOST, username):
         self.client = self.socket.socket(self.socket.AF_INET, self.socket.SOCK_STREAM)
         print(HOST)
         self.client.connect((HOST, 8080))
         self.client.send(bytes(username, 'utf-8'))
-
+    # Chuyển mã phòng mà người chơi nhập thành IP hợp lệ để kết nối tới server.
     def decrypt(self, IP):
         self.decrypted = ""
         for character in IP:

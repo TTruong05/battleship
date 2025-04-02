@@ -9,13 +9,13 @@ class create_party:
         self.addr = addr
         self.start_game = False
         self.data = None
-    # tạo socket
+    # Tạo một socket server để chờ kết nối từ client (người tham gia phòng).
     def create_socket(self):
         PORT = 8080
         self.server = self.socket.socket(self.socket.AF_INET, self.socket.SOCK_STREAM)
         self.server.bind(('', PORT))
         self.server.listen()
-    # chuyển đổi
+    # Lấy địa chỉ IP của máy và hiển thị dưới dạng mã phòng đã mã hóa
     def get_ip(self):
         s = self.socket.socket(self.socket.AF_INET, self.socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
@@ -35,7 +35,7 @@ class create_party:
         self.pygame.draw.rect(self.screen, (0, 0, 0), UNDERLINE)
         self.screen.blit(party_IP, (900, 30))
         self.screen.blit(IP_enter, (900, 120))
-
+    # hiển thị tên người chơi tạo phòng
     def display_username(self, username):
         font = self.pygame.font.Font("bit.TTF", 36)
         Title = font.render(username, True, (0, 0, 0))
@@ -45,7 +45,7 @@ class create_party:
         font = self.pygame.font.Font("bit.TTF", 72)
         Title = font.render("DAU VOI", True, (0, 0, 0))
         self.screen.blit(Title, (420, 305))
-
+    # chuyển đổi trang thái khi có người chơi khac tham gia
     def pending_oppenent_username(self, data):
         font = self.pygame.font.Font("bit.TTF", 36)
         if not data:
